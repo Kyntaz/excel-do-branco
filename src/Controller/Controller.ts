@@ -3,7 +3,6 @@ import { IEvent } from "../Model/IEvent";
 import { Person } from "../Model/Person";
 import { Income } from "../Model/Income";
 import { Payment } from "../Model/Payment";
-import { EventUnit } from "../Model/EventUnit";
 
 export class Controller {
     private sessions: Session[] = [];
@@ -12,7 +11,6 @@ export class Controller {
     private setCurrentSession?: (session: Session | null) => void;
     private setEvents?: (events: IEvent[]) => void;
     private setPlayers?: (players: Person[]) => void;
-    private setEventUnits?: (eventUnits: EventUnit[]) => void;
     private static controllerInstance: Controller;
 
     static getControllerInstance(): Controller {
@@ -37,10 +35,6 @@ export class Controller {
 
     public defineSetPlayers(setPlayers: typeof this.setPlayers) {
         this.setPlayers = setPlayers;
-    }
-
-    public defineSetEventUnits(setEventUnits: typeof this.setEventUnits) {
-        this.setEventUnits = setEventUnits;
     }
 
     private trySetSessions(sessions: Session[]) {
@@ -69,13 +63,6 @@ export class Controller {
             throw new Error("setPlayers is not defined");
         }
         this.setPlayers(players);
-    }
-
-    private trySetEventUnits(eventUnits: EventUnit[]) {
-        if (!this.setEventUnits) {
-            throw new Error("setEventUnits is not defined");
-        }
-        this.setEventUnits(eventUnits);
     }
 
     public getSessions() {
@@ -115,17 +102,11 @@ export class Controller {
         this.trySetPlayers(session.getPlayers());
     }
 
-    private recalculateEventUnits(session: Session) {
-        const eventUnits = session.getEventUnits();
-        this.trySetEventUnits(eventUnits);
-    }
-
     public addIncome(name: string, to: string[], value: number) {
         const session = this.getCurrentSession();
         const playersTo = session.findPlayers(to);
         session.addEvent(new Income(name, playersTo, value));
         this.trySetEvents(session.getEvents());
-        this.recalculateEventUnits(session);
     }
 
     public addPayment(name: string, from: string, to: string[], value: number) {
@@ -134,6 +115,5 @@ export class Controller {
         const playerFrom = session.findPlayer(from);
         session.addEvent(new Payment(name, playerFrom, playersTo, value));
         this.trySetEvents(session.getEvents());
-        this.recalculateEventUnits(session);
     }
 }

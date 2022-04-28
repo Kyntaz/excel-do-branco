@@ -3,6 +3,8 @@ import { Controller } from "../../Controller/Controller";
 import { IEvent } from "../../Model/IEvent";
 import { Income } from "../../Model/Income";
 import { Payment } from "../../Model/Payment";
+import { IncomeForm } from "./IncomeForm";
+import { PaymentForm } from "./PaymentForm";
 
 function EventView({ event }: { event: IEvent }) {
     let eventContent: JSX.Element;
@@ -36,8 +38,13 @@ export function EventList() {
     const session = controller.getCurrentSession();
     const [events, setEvents] = useState(session.getEvents());
     const [inputValue, setInputValue] = useState("");
+    const [createForm, setCreateForm] = useState<"income" | "payment" | null>(null);
     
     controller.defineSetEvents(setEvents);
+    const createFormMap = {
+        income: <IncomeForm cancel={() => setCreateForm(null)} />,
+        payment: <PaymentForm cancel={() => setCreateForm(null)} />,
+    };
     const eventViews = events
         .filter((event) => event.name.includes(inputValue))
         .map((event) => <EventView event={event} />);
@@ -52,11 +59,14 @@ export function EventList() {
                 />
                 <button
                     className="btn btn-primary"
+                    onClick={() => setCreateForm("income")}
                 >Add Income</button>
                 <button
                     className="btn btn-primary"
+                    onClick={() => setCreateForm("payment")}
                 >Add Payment</button>
             </div>
+            {createForm ? createFormMap[createForm] : <></>}
             <ul className="list-group mt-3">
                 {eventViews}
             </ul>
