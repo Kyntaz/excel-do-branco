@@ -4,6 +4,7 @@ export type PersonRecord = {
 
 export type PaymentRecord = {
     type: "payment",
+    name: string,
     from: PersonRecord,
     to: PersonRecord[],
     value: number,
@@ -11,6 +12,7 @@ export type PaymentRecord = {
 
 export type IncomeRecord = {
     type: "income",
+    name: string,
     to: PersonRecord[],
     value: number,
 };

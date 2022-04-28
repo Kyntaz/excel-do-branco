@@ -6,7 +6,7 @@ import { PaymentRecord } from "./Records";
 export class Payment implements IEvent {
     public type = "payment";
 
-    constructor(private from: Person, private to: Person[], private value: number) {}
+    constructor(public name: string, private from: Person, private to: Person[], private value: number) {}
 
     public getFrom() {
         return this.from;
@@ -23,6 +23,7 @@ export class Payment implements IEvent {
     public toRecord(): PaymentRecord {
         return {
             type: "payment",
+            name: this.name,
             from: this.from.toRecord(),
             to: this.to.map((person) => person.toRecord()),
             value: this.value,
