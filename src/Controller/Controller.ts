@@ -13,7 +13,7 @@ export class Controller {
     private setEvents?: (events: IEvent[]) => void;
     private setPlayers?: (players: Person[]) => void;
     private setEventUnits?: (eventUnits: EventUnit[]) => void;
-    static controllerInstance: Controller;
+    private static controllerInstance: Controller;
 
     static getControllerInstance(): Controller {
         if (!this.controllerInstance) {
@@ -78,7 +78,15 @@ export class Controller {
         this.setEventUnits(eventUnits);
     }
 
-    private getCurrentSession() {
+    public getSessions() {
+        return this.sessions;
+    }
+
+    public getCurrentSessionOrNull() {
+        return this.currentSession;
+    }
+
+    public getCurrentSession() {
         if (!this.currentSession) {
             throw new Error("No current session");
         }
@@ -96,8 +104,9 @@ export class Controller {
     }
 
     public createSession(name: string) {
-        this.sessions.push(new Session(name));
+        this.sessions = [...this.sessions, new Session(name)]
         this.trySetSessions(this.sessions);
+        console.log(this.sessions);
     }
 
     public addPlayer(name: string) {
@@ -111,19 +120,19 @@ export class Controller {
         this.trySetEventUnits(eventUnits);
     }
 
-    public addIncome(to: string[], value: number) {
+    public addIncome(name: string, to: string[], value: number) {
         const session = this.getCurrentSession();
         const playersTo = session.findPlayers(to);
-        session.addEvent(new Income(playersTo, value));
+        session.addEvent(new Income(name, playersTo, value));
         this.trySetEvents(session.getEvents());
         this.recalculateEventUnits(session);
     }
 
-    public addPayment(from: string, to: string[], value: number) {
+    public addPayment(name: string, from: string, to: string[], value: number) {
         const session = this.getCurrentSession();
         const playersTo = session.findPlayers(to);
         const playerFrom = session.findPlayer(from);
-        session.addEvent(new Payment(playerFrom, playersTo, value));
+        session.addEvent(new Payment(name, playerFrom, playersTo, value));
         this.trySetEvents(session.getEvents());
         this.recalculateEventUnits(session);
     }
