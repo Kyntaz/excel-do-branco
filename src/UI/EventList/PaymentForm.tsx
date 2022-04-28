@@ -80,7 +80,7 @@ export function PaymentForm({ cancel }: { cancel: () => void }) {
             <button
                 className="btn btn-success me-3"
                 onClick={createPayment}
-            >Create</button>
+            >Add</button>
             <button
                 className="btn btn-danger"
                 onClick={cancel}
