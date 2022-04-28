@@ -10,11 +10,11 @@ export class Session {
     constructor(public name: string) { }
 
     public addEvent(event: IEvent) {
-        this.events.push(event);
+        this.events = [...this.events, event];
     }
 
     public addPlayer(player: Person) {
-        this.players.push(player);
+        this.players = [...this.players, player];
     }
 
     public getEvents() {
