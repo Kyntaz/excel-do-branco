@@ -20,6 +20,14 @@ export function PlayerList() {
         controller.addPlayer(inputValue);
         setInputValue("");
     };
+
+    const keyListener = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        switch (event.key) {
+            case "Enter":
+                addPlayer();
+                break;
+        }
+    }
     
     controller.defineSetPlayers(setPlayers);
     const playerViews = players
@@ -34,6 +42,7 @@ export function PlayerList() {
                     className="form-control"
                     value={inputValue}
                     onChange={(event) => setInputValue(event.target.value)}
+                    onKeyDown={keyListener}
                 />
                 <button
                     className="btn btn-success"

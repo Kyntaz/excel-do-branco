@@ -1,5 +1,5 @@
 import { Session } from "../../Model/Session";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Controller } from "../../Controller/Controller";
 
 function SessionView({ session }: { session: Session }) {
@@ -22,7 +22,14 @@ export function SessionList() {
     const createSession = () => {
         const newSession = controller.createSession(inputValue);
         controller.selectSession(newSession);
+    }
 
+    const keyListener = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        switch (event.key) {
+            case "Enter":
+                createSession();
+                break;
+        }
     }
     
     controller.defineSetSessions(setSessions);
@@ -38,6 +45,7 @@ export function SessionList() {
                     className="form-control"
                     value={inputValue}
                     onChange={(event) => setInputValue(event.target.value)}
+                    onKeyDown={keyListener}
                 />
                 <button
                     className="btn btn-success"
