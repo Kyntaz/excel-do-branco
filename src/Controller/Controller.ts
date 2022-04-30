@@ -108,6 +108,12 @@ export class Controller {
         this.trySetPlayers(session.getPlayers());
     }
 
+    public removePlayer(player: Person) {
+        const session = this.getCurrentSession();
+        session.removePlayer(player);
+        this.trySetPlayers(session.getPlayers());
+    }
+
     public addIncome(name: string, to: string[], value: number) {
         const session = this.getCurrentSession();
         const playersTo = session.findPlayers(to);

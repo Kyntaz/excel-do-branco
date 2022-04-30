@@ -3,9 +3,16 @@ import { Controller } from "../../Controller/Controller";
 import { Person } from "../../Model/Person";
 
 function PersonView({ person }: { person: Person }) {
+    const controller = Controller.getControllerInstance();
+
     return (
         <li className="list-group-item" key={person.name}>
-            {person.name}
+            <span className="btn disabled btn-outline-dark">
+                {person.name}
+            </span>
+            <button className="btn btn-danger float-end" onClick={() => controller.removePlayer(person)}>
+                🗑️ Remove
+            </button>
         </li>
     );
 }

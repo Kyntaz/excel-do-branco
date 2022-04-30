@@ -17,6 +17,10 @@ export class Session {
         this.players = [...this.players, player];
     }
 
+    public removePlayer(player: Person) {
+        this.players = this.players.filter((p) => p !== player);
+    }
+
     public getEvents() {
         return this.events;
     }
