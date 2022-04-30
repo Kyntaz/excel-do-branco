@@ -12,13 +12,13 @@ function EventView({ event }: { event: IEvent }) {
         const income = event as Income;
         const toString = income.getTo().map((person) => person.name).join(", ");
         eventContent = (
-            <>Income: {income.name}, {income.getValue()} to {toString}</>
+            <>Income: {income.name}, {income.getValue()}€ to {toString}</>
         );
     } else if (event.type === "payment") {
         const payment = event as Payment;
         const toString = payment.getTo().map((person) => person.name).join(", ");
         eventContent = (
-            <>Payment: {payment.name}, {payment.getValue()} from {payment.getFrom().name} to {toString}</>
+            <>Payment: {payment.name}, {payment.getValue()}€ from {payment.getFrom().name} to {toString}</>
         );
     } else {
         eventContent = (

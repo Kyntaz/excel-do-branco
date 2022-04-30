@@ -57,7 +57,7 @@ export function PaymentForm({ cancel }: { cancel: () => void }) {
                 />
             </div>
             <div className="input-group mb-3">
-                <span className="input-group-text">Value</span>
+                <span className="input-group-text">Value (€)</span>
                 <input
                     className="form-control"
                     type="number"

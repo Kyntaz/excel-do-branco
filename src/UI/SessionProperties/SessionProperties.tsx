@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Controller } from "../../Controller/Controller";
 import { EventList } from "../EventList/EventList";
 import { PlayerList } from "../PlayerList/PlayerList";
+import { SplitView } from "../SplitView/SplitView";
 
-enum TabId { Players, Events, PaymentPlan };
+enum TabId { Players, Events, Splits };
 
 function Tab({ tabId, tabName, activeTab, setActiveTab }: {
     tabId: TabId,
@@ -30,7 +31,7 @@ export function SessionProperties() {
     const tabContents = {
         [TabId.Players]: <PlayerList />,
         [TabId.Events]: <EventList />,
-        [TabId.PaymentPlan]: <div></div>,
+        [TabId.Splits]: <SplitView />,
     }
 
     return (
@@ -54,8 +55,8 @@ export function SessionProperties() {
                     setActiveTab={setActiveTab}
                 />
                 <Tab
-                    tabId={TabId.PaymentPlan}
-                    tabName="Payment Plan"
+                    tabId={TabId.Splits}
+                    tabName="Splits"
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                 />
