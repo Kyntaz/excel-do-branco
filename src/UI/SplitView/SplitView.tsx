@@ -10,7 +10,7 @@ function EventUnitView({ eventUnit }: { eventUnit: EventUnit }) {
 
     const name = eventUnit.getPerson().name;
     const verb = value > 0 ? "gets" : "pays";
-    const amount = Math.abs(value);
+    const amount = Math.round((Math.abs(value) + Number.EPSILON) * 100) / 100;
 
     return (
         <li className="list-group-item">
