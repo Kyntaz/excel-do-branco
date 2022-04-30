@@ -14,7 +14,7 @@ function EventUnitView({ eventUnit }: { eventUnit: EventUnit }) {
 
     return (
         <li className="list-group-item">
-            {name} {verb} {value}€
+            {name} {verb} {amount}€
         </li>
     );
 }
