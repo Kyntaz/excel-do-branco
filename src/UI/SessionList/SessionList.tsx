@@ -18,6 +18,12 @@ export function SessionList() {
     const controller = Controller.getControllerInstance();
     const [sessions, setSessions] = useState(controller.getSessions());
     const [inputValue, setInputValue] = useState("");
+
+    const createSession = () => {
+        const newSession = controller.createSession(inputValue);
+        controller.selectSession(newSession);
+
+    }
     
     controller.defineSetSessions(setSessions);
     const sessionViews = sessions
@@ -35,7 +41,7 @@ export function SessionList() {
                 />
                 <button
                     className="btn btn-success"
-                    onClick={() => controller.createSession(inputValue)}
+                    onClick={createSession}
                     disabled={disableCreate}
                 >Create Session</button>
             </div>

@@ -91,9 +91,10 @@ export class Controller {
     }
 
     public createSession(name: string) {
-        this.sessions = [...this.sessions, new Session(name)]
+        const newSession = new Session(name);
+        this.sessions = [...this.sessions, newSession]
         this.trySetSessions(this.sessions);
-        console.log(this.sessions);
+        return newSession;
     }
 
     public addPlayer(name: string) {
