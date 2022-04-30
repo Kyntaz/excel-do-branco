@@ -15,6 +15,11 @@ export function PlayerList() {
     const session = controller.getCurrentSession();
     const [players, setPlayers] = useState(session.getPlayers());
     const [inputValue, setInputValue] = useState("");
+
+    const addPlayer = () => {
+        controller.addPlayer(inputValue);
+        setInputValue("");
+    };
     
     controller.defineSetPlayers(setPlayers);
     const playerViews = players
@@ -32,7 +37,7 @@ export function PlayerList() {
                 />
                 <button
                     className="btn btn-success"
-                    onClick={() => controller.addPlayer(inputValue)}
+                    onClick={addPlayer}
                     disabled={disableCreate}
                 >Add Player</button>
             </div>
