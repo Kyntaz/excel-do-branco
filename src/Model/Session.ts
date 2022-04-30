@@ -13,6 +13,10 @@ export class Session {
         this.events = [...this.events, event];
     }
 
+    public removeEvent(event: IEvent) {
+        this.events = this.events.filter((e) => e !== event);
+    }
+
     public addPlayer(player: Person) {
         this.players = [...this.players, player];
     }

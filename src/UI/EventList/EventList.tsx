@@ -7,18 +7,35 @@ import { IncomeForm } from "./IncomeForm";
 import { PaymentForm } from "./PaymentForm";
 
 function EventView({ event }: { event: IEvent }) {
+    const controller = Controller.getControllerInstance();
+
     let eventContent: JSX.Element;
     if (event.type === "income") {
         const income = event as Income;
         const toString = income.getTo().map((person) => person.name).join(", ");
+        const colorClass = income.getValue() > 0 ? "btn-success" : "btn-danger";
         eventContent = (
-            <>Income: {income.name}, {income.getValue()}€ to {toString}</>
+            <>
+                <span className={"btn disabled " + colorClass}>
+                    {income.name}
+                </span>
+                <span className="btn disabled btn-outline-dark ms-3">
+                    {income.getValue()}€ for {toString}
+                </span>
+            </>
         );
     } else if (event.type === "payment") {
         const payment = event as Payment;
         const toString = payment.getTo().map((person) => person.name).join(", ");
         eventContent = (
-            <>Payment: {payment.name}, {payment.getValue()}€ from {payment.getFrom().name} to {toString}</>
+            <>
+                <span className="btn disabled btn-primary">
+                    {payment.name}
+                </span>
+                <span className="btn disabled btn-outline-dark ms-3">
+                    {payment.getValue()}€ from {payment.getFrom().name} to {toString}
+                </span>
+            </>
         );
     } else {
         eventContent = (
@@ -29,6 +46,9 @@ function EventView({ event }: { event: IEvent }) {
     return (
         <li className="list-group-item" key={event.name}>
             {eventContent}
+            <button className="btn btn-danger float-end" onClick={() => controller.removeEvent(event)}>
+                🗑️ Remove
+            </button>
         </li>
     );
 }

@@ -128,4 +128,10 @@ export class Controller {
         session.addEvent(new Payment(name, playerFrom, playersTo, value));
         this.trySetEvents(session.getEvents());
     }
+
+    public removeEvent(event: IEvent) {
+        const session = this.getCurrentSession();
+        session.removeEvent(event);
+        this.trySetEvents(session.getEvents());
+    }
 }
