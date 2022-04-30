@@ -10,6 +10,9 @@ function SessionView({ session }: { session: Session }) {
             <button className="btn btn-outline-primary" onClick={() => controller.selectSession(session)}>
                 {session.name}
             </button>
+            <button className="btn btn-danger float-end" onClick={() => controller.deleteSession(session)}>
+                🗑️ Delete
+            </button>
         </li>
     );
 }

@@ -97,6 +97,11 @@ export class Controller {
         return newSession;
     }
 
+    public deleteSession(session: Session) {
+        this.sessions = this.sessions.filter((s) => s !== session);
+        this.trySetSessions(this.sessions);
+    }
+
     public addPlayer(name: string) {
         const session = this.getCurrentSession();
         session.addPlayer(new Person(name));
