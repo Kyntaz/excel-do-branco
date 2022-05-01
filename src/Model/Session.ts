@@ -2,10 +2,38 @@ import { Person } from "./Person";
 import { IEvent } from "./IEvent";
 import { SessionRecord } from "./Records";
 import { EventUnit } from "./EventUnit";
+import { Income } from "./Income";
+import { Payment } from "./Payment";
 
 export class Session {
     private players: Person[] = [];
     private events: IEvent[] = [];
+
+    public static fromRecord(record: SessionRecord) {
+        const session = new Session(record.name);
+
+        const players = record.players.map((playerRecord) => Person.fromRecord(playerRecord));
+        
+        const events = record.events.map((eventRecord) => {
+            if (eventRecord.type === "income") {
+                return Income.fromRecord(eventRecord, players);
+            } else if (eventRecord.type === "payment") {
+                return Payment.fromRecord(eventRecord, players);
+            } else {
+                throw new Error("Unknown event type while reading session");
+            }
+        });
+
+        for (const player of players) {
+            session.addPlayer(player);
+        }
+
+        for (const event of events) {
+            session.addEvent(event);
+        }
+
+        return session;
+    }
 
     constructor(public name: string) { }
 

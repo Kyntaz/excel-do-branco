@@ -6,6 +6,15 @@ import { PaymentRecord } from "./Records";
 export class Payment implements IEvent {
     public type = "payment";
 
+    public static fromRecord(record: PaymentRecord, players: Person[]) {
+        const [fromPerson] = players.filter((player) => player.name === record.from);
+        const toPersons = record.to.map((name) => {
+            const [toPerson] = players.filter((player) => player.name === name);
+            return toPerson;
+        });
+        return new Payment(record.name, fromPerson, toPersons, record.value);
+    }
+
     constructor(public name: string, private from: Person, private to: Person[], private value: number) {}
 
     public getFrom() {
@@ -24,8 +33,8 @@ export class Payment implements IEvent {
         return {
             type: "payment",
             name: this.name,
-            from: this.from.toRecord(),
-            to: this.to.map((person) => person.toRecord()),
+            from: this.from.name,
+            to: this.to.map((person) => person.name),
             value: this.value,
         };
     }

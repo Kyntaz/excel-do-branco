@@ -5,15 +5,15 @@ export type PersonRecord = {
 export type PaymentRecord = {
     type: "payment",
     name: string,
-    from: PersonRecord,
-    to: PersonRecord[],
+    from: string,
+    to: string[],
     value: number,
 };
 
 export type IncomeRecord = {
     type: "income",
     name: string,
-    to: PersonRecord[],
+    to: string[],
     value: number,
 };
 
