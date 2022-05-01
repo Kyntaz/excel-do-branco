@@ -3,15 +3,21 @@ import { IEvent } from "../Model/IEvent";
 import { Person } from "../Model/Person";
 import { Income } from "../Model/Income";
 import { Payment } from "../Model/Payment";
+import { Scheduler } from "../Scheduler/Scheduler";
+import { Storage } from "../Storage/Storage";
 
 export class Controller {
+    private static controllerInstance: Controller;
+
     private sessions: Session[] = [];
     private currentSession: Session | null = null;
     private setSessions?: (sessions: Session[]) => void;
     private setCurrentSession?: (session: Session | null) => void;
     private setEvents?: (events: IEvent[]) => void;
     private setPlayers?: (players: Person[]) => void;
-    private static controllerInstance: Controller;
+    private listenOnUnload = (action: () => void) => window.addEventListener("beforeunload", action);
+    private storage = new Storage();
+    private storageScheduler = new Scheduler(() => this.storeSessions(), 30e3);
 
     static getControllerInstance(): Controller {
         if (!this.controllerInstance) {
@@ -19,6 +25,12 @@ export class Controller {
         }
 
         return this.controllerInstance;
+    }
+
+    constructor() {
+        this.readSessions();
+        this.storageScheduler.start();
+        this.listenOnUnload(() => this.storeSessions());
     }
 
     public defineSetSessions(setSessions: typeof this.setSessions) {
@@ -133,5 +145,13 @@ export class Controller {
         const session = this.getCurrentSession();
         session.removeEvent(event);
         this.trySetEvents(session.getEvents());
+    }
+
+    public storeSessions() {
+        this.storage.storeSessions(this.getSessions())
+    }
+
+    public readSessions() {
+        this.sessions = this.storage.readSessions()
     }
 }
