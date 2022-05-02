@@ -1,3 +1,4 @@
+import { Tooltip } from "bootstrap";
 import { useState } from "react";
 import { Controller } from "../../Controller/Controller";
 import { EventList } from "../EventList/EventList";
@@ -39,8 +40,10 @@ export function SessionProperties() {
             <ul className="nav nav-tabs">
                 <li className="nav-item disabled">
                     <button
-                        className="nav-link disabled text-success"
-                    >{session.name}</button>
+                        type="button"
+                        className="nav-link text-success"
+                        onClick={() => controller.writeCurrentSessionShareableUrlToClipboard()}
+                    >🔗 {session.name}</button>
                 </li>
                 <Tab
                     tabId={TabId.Players}
@@ -64,7 +67,7 @@ export function SessionProperties() {
                     <button
                         className="nav-link text-danger"
                         onClick={() => controller.leaveSession()}
-                    >Leave Session</button>
+                    >❌ Leave Session</button>
                 </li>
             </ul>
             {tabContents[activeTab]}

@@ -5,6 +5,7 @@ import { Income } from "../Model/Income";
 import { Payment } from "../Model/Payment";
 import { Scheduler } from "../Scheduler/Scheduler";
 import { Storage } from "../Storage/Storage";
+import { UrlHandler } from "../UrlHandler/UrlHandler";
 
 export class Controller {
     private static controllerInstance: Controller;
@@ -16,8 +17,10 @@ export class Controller {
     private setEvents?: (events: IEvent[]) => void;
     private setPlayers?: (players: Person[]) => void;
     private listenOnUnload = (action: () => void) => window.addEventListener("beforeunload", action);
+    private delayExecution = (action: () => void) => window.setTimeout(action);
     private storage = new Storage();
     private storageScheduler = new Scheduler(() => this.storeSessions(), 30e3);
+    private urlHandler = new UrlHandler();
 
     static getControllerInstance(): Controller {
         if (!this.controllerInstance) {
@@ -31,6 +34,17 @@ export class Controller {
         this.readSessions();
         this.storageScheduler.start();
         this.listenOnUnload(() => this.storeSessions());
+
+        if (this.urlHandler.urlHasSharedSession()) {
+            const sharedSession = this.urlHandler.getSharedSession();
+            const [matchingSession] = this.sessions.filter((session) => session.name === sharedSession.name);
+            if (matchingSession) {
+                this.delayExecution(() => this.selectSession(matchingSession));
+            } else {
+                this.sessions = [...this.sessions, sharedSession];
+                this.delayExecution(() => this.selectSession(sharedSession));
+            }
+        }
     }
 
     public defineSetSessions(setSessions: typeof this.setSessions) {
@@ -100,6 +114,9 @@ export class Controller {
     public leaveSession() {
         this.currentSession = null;
         this.trySetCurrentSession(null);
+        if (this.urlHandler.urlHasSharedSession()) {
+            this.urlHandler.clearSharedSession();
+        }
     }
 
     public createSession(name: string) {
@@ -153,5 +170,10 @@ export class Controller {
 
     public readSessions() {
         this.sessions = this.storage.readSessions()
+    }
+
+    public writeCurrentSessionShareableUrlToClipboard() {
+        const session = this.getCurrentSession();
+        this.urlHandler.writeShareableUrlToClipboard(session);
     }
 }

@@ -7,6 +7,7 @@ export class UrlHandler {
     private parameter = DEFAULT_SHARE_SESSION_PARAM;
     private getWindowUrl = () => window.location.href;
     private getWindowUrlSearch = () => window.location.search;
+    private setWindowUrl = (url: string) => window.location.assign(url);
     private ctrlC = (text: string) => navigator.clipboard.writeText(text);
 
     public getAppUrl() {
@@ -44,5 +45,10 @@ export class UrlHandler {
 
         const record: SessionRecord = JSON.parse(shared);
         return Session.fromRecord(record);
+    }
+
+    public clearSharedSession() {
+        const url = this.getAppUrl();
+        this.setWindowUrl(url);
     }
 }
