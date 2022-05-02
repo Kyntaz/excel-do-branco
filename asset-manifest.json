@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/excel-do-branco/static/css/main.38be36b0.css",
-    "main.js": "/excel-do-branco/static/js/main.721b4747.js",
+    "main.js": "/excel-do-branco/static/js/main.538b4f14.js",
     "index.html": "/excel-do-branco/index.html",
     "main.38be36b0.css.map": "/excel-do-branco/static/css/main.38be36b0.css.map",
-    "main.721b4747.js.map": "/excel-do-branco/static/js/main.721b4747.js.map"
+    "main.538b4f14.js.map": "/excel-do-branco/static/js/main.538b4f14.js.map"
   },
   "entrypoints": [
     "static/css/main.38be36b0.css",
-    "static/js/main.721b4747.js"
+    "static/js/main.538b4f14.js"
   ]
 }
