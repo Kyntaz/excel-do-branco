@@ -17,7 +17,14 @@ export type IncomeRecord = {
     value: number,
 };
 
-export type EventRecord = PaymentRecord | IncomeRecord;
+export type LiquidationRecord = {
+    type: "liquidation",
+    name: string,
+    person: string,
+    value: number,
+}
+
+export type EventRecord = PaymentRecord | IncomeRecord | LiquidationRecord;
 
 export type SessionRecord = {
     name: string,
