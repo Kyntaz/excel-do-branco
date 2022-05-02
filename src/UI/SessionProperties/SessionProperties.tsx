@@ -1,4 +1,3 @@
-import { Tooltip } from "bootstrap";
 import { useState } from "react";
 import { Controller } from "../../Controller/Controller";
 import { EventList } from "../EventList/EventList";
