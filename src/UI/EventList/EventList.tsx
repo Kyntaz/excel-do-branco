@@ -4,6 +4,7 @@ import { IEvent } from "../../Model/IEvent";
 import { Income } from "../../Model/Income";
 import { Liquidation } from "../../Model/Liquidation";
 import { Payment } from "../../Model/Payment";
+import { roundToCents } from "../../Utils/MoneyUtils";
 import { IncomeForm } from "./IncomeForm";
 import { PaymentForm } from "./PaymentForm";
 
@@ -21,7 +22,7 @@ function EventView({ event }: { event: IEvent }) {
                     {income.name}
                 </span>
                 <span className="btn disabled btn-outline-dark ms-3">
-                    {income.getValue()}€ for {toString}
+                    {roundToCents(income.getValue())}€ for {toString}
                 </span>
             </>
         );
@@ -34,7 +35,7 @@ function EventView({ event }: { event: IEvent }) {
                     {payment.name}
                 </span>
                 <span className="btn disabled btn-outline-dark ms-3">
-                    {payment.getValue()}€ from {payment.getFrom().name} to {toString}
+                    {roundToCents(payment.getValue())}€ from {payment.getFrom().name} to {toString}
                 </span>
             </>
         );
@@ -46,7 +47,7 @@ function EventView({ event }: { event: IEvent }) {
                     {liquidation.name}
                 </span>
                 <span className="btn disabled btn-outline-dark ms-3">
-                    {liquidation.getValue()}€
+                    {roundToCents(liquidation.getValue())}€
                 </span>
             </>
         );

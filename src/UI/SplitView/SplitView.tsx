@@ -1,20 +1,38 @@
+import { useState } from "react";
 import { Controller } from "../../Controller/Controller";
 import { EventUnit } from "../../Model/EventUnit";
+import { roundToCents } from "../../Utils/MoneyUtils";
 
 function EventUnitView({ eventUnit }: { eventUnit: EventUnit }) {
+    const controller = Controller.getControllerInstance();
     const value = eventUnit.getValue();
 
-    if (value === 0) {
+    const [payed, setPayed] = useState(false);
+
+    if (payed || value === 0) {
         return (<></>);
     }
 
+    const pay = () => {
+        controller.liquidateEventUnit(eventUnit);
+        setPayed(true);
+    };
+
     const name = eventUnit.getPerson().name;
     const verb = value > 0 ? "gets" : "pays";
-    const amount = Math.round((Math.abs(value) + Number.EPSILON) * 100) / 100;
+    const amount = roundToCents(value);
 
     return (
         <li className="list-group-item">
-            {name} {verb} {amount}€
+            <span className="btn disabled btn-outline-dark">
+                {name} {verb} {amount}€
+            </span>
+            <span
+                className="btn btn-success float-end"
+                onClick={pay}
+            >
+                ✔️ Payed
+            </span>
         </li>
     );
 }

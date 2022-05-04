@@ -6,6 +6,8 @@ import { Payment } from "../Model/Payment";
 import { Scheduler } from "../Scheduler/Scheduler";
 import { Storage } from "../Storage/Storage";
 import { UrlHandler } from "../UrlHandler/UrlHandler";
+import { EventUnit } from "../Model/EventUnit";
+import { Liquidation } from "../Model/Liquidation";
 
 export class Controller {
     private static controllerInstance: Controller;
@@ -156,6 +158,11 @@ export class Controller {
         const playerFrom = session.findPlayer(from);
         session.addEvent(new Payment(name, playerFrom, playersTo, value));
         this.trySetEvents(session.getEvents());
+    }
+
+    public liquidateEventUnit(eventUnit: EventUnit) {
+        const session = this.getCurrentSession();
+        session.addEvent(Liquidation.fromEventUnit(eventUnit));
     }
 
     public removeEvent(event: IEvent) {
