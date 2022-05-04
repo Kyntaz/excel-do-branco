@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Controller } from "../../Controller/Controller";
 import { IEvent } from "../../Model/IEvent";
 import { Income } from "../../Model/Income";
+import { Liquidation } from "../../Model/Liquidation";
 import { Payment } from "../../Model/Payment";
 import { IncomeForm } from "./IncomeForm";
 import { PaymentForm } from "./PaymentForm";
@@ -34,6 +35,18 @@ function EventView({ event }: { event: IEvent }) {
                 </span>
                 <span className="btn disabled btn-outline-dark ms-3">
                     {payment.getValue()}€ from {payment.getFrom().name} to {toString}
+                </span>
+            </>
+        );
+    } else if (event.type === "liquidation") {
+        const liquidation = event as Liquidation;
+        eventContent = (
+            <>
+                <span className="btn disabled btn-info">
+                    {liquidation.name}
+                </span>
+                <span className="btn disabled btn-outline-dark ms-3">
+                    {liquidation.getValue()}€
                 </span>
             </>
         );
